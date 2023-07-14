@@ -1,21 +1,41 @@
-#!/usr/bin/python3
-import random
-number = random.randint(-10000, 10000)
-tempNum = number
+/*
+ * File: 1-last_digit.c
+ * Auth: Brennan D Baraban
+ */
 
-if number < 0:
-    number = -(number)
+#include <stdlib.h>
+#include <time.h>
+#include <stdio.h>
 
-lastDigit = number % 10
-if tempNum < 0:
-    number = tempNum
-    lastDigit = -(lastDigit)
+/**
+ * main - Prints the last digit of a randomly generated number
+ *        and whether it is greater than 5, less than 6, or 0.
+ *
+ * Return: Always 0.
+ */
+int main(void)
+{
+	int n;
 
-if lastDigit > 5:
-    string = "and is greater than 5"
-elif lastDigit == 0:
-    string = "and is 0"
-elif lastDigit < 6:
-    string = "and is less than 6 and not 0"
+	srand(time(0));
+	n = rand() - RAND_MAX / 2;
 
-print("Last digit of {:d} is {:d}".format(number, lastDigit), string)
+	if ((n % 10) > 5)
+	{
+		printf("Last digit of %d is %d and is greater than 5\n",
+			n, n % 10);
+	}
+	else if ((n % 10) < 6 && (n % 10) != 0)
+	{
+		printf("Last digit of %d is %d and is less than 6 and not 0\n",
+			n, n % 10);
+	}
+	else
+	{
+		printf("Last digit of %d is %d and is 0\n",
+			n, n % 10);
+	}
+
+	return (0);
+
+}
