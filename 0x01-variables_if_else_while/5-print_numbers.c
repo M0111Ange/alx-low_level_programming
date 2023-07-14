@@ -1,8 +1,23 @@
-#!/usr/bin/python3
-endStr = ", "
+/*
+ * File: 5-print_numbers.c
+ * Auth: Brennan D Baraban
+ */
 
-for i in range(0, 100):
-    if i == 99:
-        endStr = ""
-    print("{:02d}".format(i), end=endStr)
-print('')
+#include <stdio.h>
+
+/**
+ * main - Prints all single digit numbers of base 10 starting from 0.
+ *
+ * Return: Always 0.
+ */
+int main(void)
+{
+	int num;
+
+	for (num = 0; num < 10; num++)
+		printf("%d", num);
+
+	printf("\n");
+
+	return (0);
+}
