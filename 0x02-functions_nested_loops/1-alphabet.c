@@ -1,21 +1,23 @@
+/*
+ * File: 1-alphabet.c
+ * Auth: Ange Mukundente
+ */
+
 #include "main.h"
 
 /**
- * main -  prints _putchar, followed by new line
- * Return: Always 0.
+ * print_alphabet - prints alphabet
+ *
+ * Return: void
  */
 
-int main(void)
+void print_alphabet(void)
 {
-	_putchar('_');
-	_putchar('p');
-	_putchar('u');
-	_putchar('t');
-	_putchar('c');
-	_putchar('h');
-	_putchar('a');
-	_putchar('r');
-	_putchar('\n');
+	char c;
 
-	return (0);
+	for (c = 'a'; c <= 'z'; c++)
+	{
+		_putchar(c);
+	}
+	_putchar('\n');
 }
