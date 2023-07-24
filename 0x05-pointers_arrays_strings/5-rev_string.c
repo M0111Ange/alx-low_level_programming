@@ -21,7 +21,9 @@ void rev_string(char *s)
 	for (a = 0; a < len / 2; a++)
 	{
 		char x;
+
 		x = *end;
+
 		*end = *begin;
 		*begin = x;
 		begin++;
