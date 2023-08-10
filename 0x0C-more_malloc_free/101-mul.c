@@ -1,72 +1,101 @@
-#include <stdlib.h>
-#include <string.h>
-#include <stdio.h>
-#include <ctype.h>
 #include "main.h"
+#include <stdlib.h>
+#include <stdio.h>
+
+#define ERR_MSG "Error"
 
 /**
- *main - entry point to program that multiplies positive numbers
- *@argc: count of inputs
- *@argv: array of inputs
- *Return: 0 if success
- */
-int main(int argc, char **argv)
-{
-	if (argc > 3)
-	{
-		printf("Error\n");
-		exit(98);
-	}
-	if (all_digits(argv[1]) && all_digits(argv[2]))
-	{
-		print_number(atoll(argv[1]) * atoll(argv[2]));
-		_putchar('\n');
-	}
-	else
-	{
-		printf("Error\n");
-		exit(98);
-	}
-	return (0);
-}
-
-/**
- *all_digits - checks an array to make sure all characters are digits
+ * is_digit - checks if a string contains a non-digit char
+ * @s: string to be evaluated
  *
- *@n: the array to be checked
- *Return: 0 if not all digits, and 1 if all digits
+ * Return: 0 if a non-digit is found, 1 otherwise
  */
-int all_digits(char *n)
+int is_digit(char *s)
 {
 	int i = 0;
 
-	while (n[i] != '\0')
+	while (s[i])
 	{
-		if (!isdigit(n[i]))
-		{
+		if (s[i] < '0' || s[i] > '9')
 			return (0);
-		}
 		i++;
 	}
 	return (1);
 }
 
 /**
- *print_number - prints numbers using putchar
- *@n: Number to be printed
+ * _strlen - returns the length of a string
+ * @s: string to evaluate
  *
- *Return: void
+ * Return: the length of the string
  */
-void print_number(int n)
+int _strlen(char *s)
 {
-	if (n < 0)
+	int i = 0;
+
+	while (s[i] != '\0')
 	{
-		_putchar('-');
-		n = -n;
+		i++;
 	}
+	return (i);
+}
 
-	if (n / 10)
-		print_number(n / 10);
+/**
+ * errors - handles errors for main
+ */
+void errors(void)
+{
+	printf("Error\n");
+	exit(98);
+}
 
-	_putchar('0' + (n % 10));
+/**
+ * main - multiplies two positive numbers
+ * @argc: number of arguments
+ * @argv: array of arguments
+ *
+ * Return: always 0 (Success)
+ */
+int main(int argc, char *argv[])
+{
+	char *s1, *s2;
+	int len1, len2, len, i, carry, digit1, digit2, *result, a = 0;
+
+	s1 = argv[1], s2 = argv[2];
+	if (argc != 3 || !is_digit(s1) || !is_digit(s2))
+		errors();
+	len1 = _strlen(s1);
+	len2 = _strlen(s2);
+	len = len1 + len2 + 1;
+	result = malloc(sizeof(int) * len);
+	if (!result)
+		return (1);
+	for (i = 0; i <= len1 + len2; i++)
+		result[i] = 0;
+	for (len1 = len1 - 1; len1 >= 0; len1--)
+	{
+		digit1 = s1[len1] - '0';
+		carry = 0;
+		for (len2 = _strlen(s2) - 1; len2 >= 0; len2--)
+		{
+			digit2 = s2[len2] - '0';
+			carry += result[len1 + len2 + 1] + (digit1 * digit2);
+			result[len1 + len2 + 1] = carry % 10;
+			carry /= 10;
+		}
+		if (carry > 0)
+			result[len1 + len2 + 1] += carry;
+	}
+	for (i = 0; i < len - 1; i++)
+	{
+		if (result[i])
+			a = 1;
+		if (a)
+			_putchar(result[i] + '0');
+	}
+	if (!a)
+		_putchar('0');
+	_putchar('\n');
+	free(result);
+	return (0);
 }
