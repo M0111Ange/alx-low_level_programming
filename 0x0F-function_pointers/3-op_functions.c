@@ -1,83 +1,59 @@
-#include "3-calc.h"
-
-int op_add(int a, int b);
-int op_sub(int a, int b);
-int op_mul(int a, int b);
-int op_div(int a, int b);
-int op_mod(int a, int b);
+#include <stdlib.h>
 
 /**
- * op_add - Returns the sum of two numbers.
- * @a: The first number.
- * @b: The second number.
+ *op_add - Adds two numbers
  *
- * Return: The sum of a and b.
+ *@a: first integer
+ *@b: Second integer
+ *Return: An integer sum of a and b
  */
 int op_add(int a, int b)
 {
 	return (a + b);
 }
+
 /**
- * op_sub - Returns the difference of two numbers.
- * @a: The first number.
- * @b: The second number.
+ *op_sub - Subtracts two numbers
  *
- * Return: The difference of a and b.
+ *@a: first integer
+ *@b: Second integer
+ *Return: An integer diff of a and b
  */
 int op_sub(int a, int b)
 {
 	return (a - b);
 }
+
 /**
- * op_mul - Returns the product of two numbers.
- * @a: The first number.
- * @b: The second number.
+ *op_mul - Multiplies two numbers
  *
- * Return: The product of a and b.
+ *@a: first integer
+ *@b: Second integer
+ *Return: An integer product of a and b
  */
 int op_mul(int a, int b)
 {
 	return (a * b);
 }
+
 /**
- * op_div - Returns the division of two numbers.
- * @a: The first number.
- * @b: The second number.
+ *op_div - Divides two numbers
  *
- * Return: The quotient of a and b.
+ *@a: first integer
+ *@b: Second integer
+ *Return: An integer quotient of a and b
  */
 int op_div(int a, int b)
 {
 	return (a / b);
 }
+
 /**
- * op_mod - Returns the remainder of the division of two numbers.
- * @a: The first number.
- * @b: The second number.
+ *op_mod - Modulo of two numbers
  *
- * Return: The remainder of the division of a by b.
- */
-int op_mod(int a, int b)
-{
-	return (a % b);
-}
-/**
- * op_div - Returns the division of two numbers.
- * @a: The first number.
- * @b: The second number.
- *
- * Return: The quotient of a and b.
- */
-int op_div(int a, int b)
-{
-	return (a / b);
-}
-/**
- * op_mod - Returns the remainder of the division of two numbers.
- * @a: The first number.
- * @b: The second number.
- *
- * Return: The remainder of the division of a by b.
+ *@a: first integer
+ *@b: Second integer
+ *Return: An integer remainder of a divide by b
  */
 int op_mod(int a, int b)
 {
