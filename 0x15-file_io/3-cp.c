@@ -1,91 +1,72 @@
 #include "main.h"
-#include <unistd.h>
-#include <stdlib.h>
 #include <stdio.h>
-#include <fcntl.h>
-
-#define MAX 1024
-
+#include <stdlib.h>
 /**
- *main - Entry point to program that copies content of one file to another
- *@ac: Argument count
- *@av: List of arguments
- *Return: An integer
+ * error_file - checks if files can be opened.
+ * @file_from: file_from.
+ * @file_to: file_to.
+ * @argv: arguments vector.
+ * Return: no return.
  */
-int main(int ac, char **av)
+void error_file(int file_from, int file_to, char *argv[])
 {
-	int fd_from, fd_to, close_to, close_from;
-	char *file_from, *file_to;
-	mode_t mode = (S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH);
-
-	if (ac != 3)
+	if (file_from == -1)
 	{
-		dprintf(STDERR_FILENO, "Usage: cp file_from file_to\n");
-		exit(97);
-	}
-	file_from = av[1];
-	file_to = av[2];
-	fd_from = open(file_from, O_RDONLY);
-	if (fd_from < 0)
-	{
-		dprintf(STDERR_FILENO, "Error: Can't read from file %s\n",
-			file_from);
+		dprintf(STDERR_FILENO, "Error: Can't read from file %s\n", argv[1]);
 		exit(98);
 	}
-	fd_to = open(file_to, (O_WRONLY | O_CREAT | O_TRUNC), mode);
-	if (fd_to < 0)
+	if (file_to == -1)
 	{
-		dprintf(STDERR_FILENO, "Error: Can't write to %s\n", file_to);
+		dprintf(STDERR_FILENO, "Error: Can't write to %s\n", argv[2]);
 		exit(99);
 	}
-	transfer_bytes(fd_from, fd_to, file_from, file_to);
-	close_from = close(fd_from);
-	if (close_from < 0)
-	{
-		dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", fd_from);
-		exit(100);
-	}
-	close_to = close(fd_to);
-	if (close_to < 0)
-	{
-		dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", fd_to);
-		exit(100);
-	}
-	return (0);
 }
 
 /**
- *transfer_bytes - transfers bythes from one file to another
- *@fd_from: files descriptor of source
- *@fd_to: file descriptor of destinaation
- *@file_from: Name of source file
- *@file_to: Name of destination file
- *Return: void
+ * main - check the code for Holberton School students.
+ * @argc: number of arguments.
+ * @argv: arguments vector.
+ * Return: Always 0.
  */
-void transfer_bytes(int fd_from, int fd_to, char *file_from, char *file_to)
+int main(int argc, char *argv[])
 {
-	ssize_t input, output;
-	char buffer[MAX];
+	int file_from, file_to, err_close;
+	ssize_t nchars, nwr;
+	char buf[1024];
 
-	while (input > 0)
+	if (argc != 3)
 	{
-		input = read(fd_from, buffer, MAX);
-		if (input < 0)
-		{
-			dprintf(STDERR_FILENO,
-				"Error: Can't read from file %s\n",
-				file_from);
-			exit(98);
-		}
-		if (input > 0)
-		{
-			output = write(fd_to, buffer, input);
-			if (output < 0 || input != output)
-			{
-				dprintf(STDERR_FILENO,
-					"Error: Can't write to %s\n", file_to);
-				exit(99);
-			}
-		}
+		dprintf(STDERR_FILENO, "%s\n", "Usage: cp file_from file_to");
+		exit(97);
 	}
+
+	file_from = open(argv[1], O_RDONLY);
+	file_to = open(argv[2], O_CREAT | O_WRONLY | O_TRUNC | O_APPEND, 0664);
+	error_file(file_from, file_to, argv);
+
+	nchars = 1024;
+	while (nchars == 1024)
+	{
+		nchars = read(file_from, buf, 1024);
+		if (nchars == -1)
+			error_file(-1, 0, argv);
+		nwr = write(file_to, buf, nchars);
+		if (nwr == -1)
+			error_file(0, -1, argv);
+	}
+
+	err_close = close(file_from);
+	if (err_close == -1)
+	{
+		dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", file_from);
+		exit(100);
+	}
+
+	err_close = close(file_to);
+	if (err_close == -1)
+	{
+		dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", file_from);
+		exit(100);
+	}
+	return (0);
 }
