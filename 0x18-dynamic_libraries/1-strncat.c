@@ -1,39 +1,30 @@
 #include "main.h"
-
 /**
- *_strncat - Concatenates two strings without exceeding n bytes
- *@n: max bytes
- *@dest: String being added to
- *@src: String being added from
- *Return: An array of chars (dest)
+ * _strncat - Concatenate two strings using at
+ * most n bytes from src
+ * @dest: input value
+ * @src: input value
+ * @n: input value
+ *
+ * Return: dest
  */
 char *_strncat(char *dest, char *src, int n)
 {
-	int len_dest, max, len_src, i;
+	int i;
+	int j;
 
-	len_dest = _strlen(dest);
-	len_src = _strlen(src);
-	if (len_src - 1 > n)
-		max = n - 1;
-	else
-		max = len_src - 1;
-	for (i = 0 ; i <= max ; i++)
-		dest[len_dest + i] = src[i];
-	dest[(len_dest + i)] = '\0';
+	i = 0;
+	while (dest[i] != '\0')
+	{
+		i++;
+	}
+	j = 0;
+	while (j < n && src[j] != '\0')
+	{
+	dest[i] = src[j];
+	i++;
+	j++;
+	}
+	dest[i] = '\0';
 	return (dest);
-}
-
-/**
- *_strlen - returns the length of a string
- *
- *@s: string
- *Return: int(lenght of s)
- */
-int _strlen(char *s)
-{
-	int n = 0;
-
-	while (*(s + n) != '\0')
-		n++;
-	return (n);
 }

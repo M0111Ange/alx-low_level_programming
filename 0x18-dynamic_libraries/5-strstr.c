@@ -1,13 +1,27 @@
 #include "main.h"
-#include <string.h>
 
 /**
- *_strstr - finds the first occurence of a substring in a string
- *@haystack: string being queried
- *@needle: substring
- *Return: A pointer to the first byte of occurence
+ * _strstr - entry point
+ * @haystack: input
+ * @needle: input
+ * Return: Always 0 (Success)
  */
 char *_strstr(char *haystack, char *needle)
 {
-	return (strstr(haystack, needle));
+	for (; *haystack != '\0'; haystack++)
+	{
+		char *l = haystack;
+		char *p = needle;
+
+		while (*l == *p && *p != '\0')
+		{
+			l++;
+			p++;
+		}
+
+		if (*p == '\0')
+			return (haystack);
+	}
+
+	return (0);
 }
